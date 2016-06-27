@@ -23,7 +23,7 @@ K: King
 You are free to model cards and hands any way you like but the code you write should be able to take a hand like such:
 ```scala
 val player1 = List("AC", "4D", "QC", "3H", "10S")
-```scala
+```
 
 Your code should take a hand and identify it based on the standard rules of poker.
 The possible hands are:
