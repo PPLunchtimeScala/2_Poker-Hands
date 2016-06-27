@@ -13,7 +13,7 @@
 Determine the status of a poker hand.
 
 A poker hand is given as a list of 5 cards. 
-Each card is a simple String that is a combination of the suit and the value of the card. eg 5C is the 5 of clubs.
+Each card is given as a combination of the suit and the value of the card. eg 5C is the 5 of clubs.
 The four suits are:
 * D: Diamonds
 * H: Hearts
@@ -35,7 +35,7 @@ val player1 = List("AC", "4D", "QC", "3H", "10S")
 
 Your code should take a hand and identify it based on the standard rules of poker.
 The possible hands are:
-Straight flush
+* Straight flush
 * Four of a kind
 * Full house
 * Flush
@@ -47,7 +47,8 @@ Straight flush
 These are listed and explained at https://en.wikipedia.org/wiki/List_of_poker_hands
 
 ##Tests
-If your code is correct, the following asserts should pass:
+If your code is correct, the following asserts should pass. 
+Use these as the acceptance criteria for your code.
 ```scala
 assert(PokerApp.identifyHand(List("AC", "4D", "QC", "3H", "10S") == "High card: Queen of clubs")
 ```
