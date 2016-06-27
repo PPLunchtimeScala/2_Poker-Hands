@@ -15,7 +15,7 @@ S: Spades
 
 The 13 values are 
 A: ace
-2,, 3, 4...10
+2, 3, 4...10
 J: Jack
 Q: Queen
 K: King
