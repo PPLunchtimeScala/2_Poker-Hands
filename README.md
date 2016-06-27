@@ -51,8 +51,7 @@ These are listed and explained at https://en.wikipedia.org/wiki/List_of_poker_ha
 
 ##Tests
 If your code is correct, the following asserts should pass. 
-
-Use these as the acceptance criteria for your code.
+Copy and paste them into the bottom of your worksheet and use them as the acceptance criteria for your code.
 ```scala
 assert(PokerApp.identifyHand(List("AC", "4D", "QC", "3H") == "Invalid hand: Too few cards")
 assert(PokerApp.identifyHand(List("AC", "4D", "QC", "3H", "10S") == "Invalid hand: Too many cards")
