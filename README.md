@@ -27,14 +27,18 @@ The 13 values are:
 * Q: Queen
 * K: King
 
-You are free to model cards and hands any way you like, but your code should be able to take a hand defined as a list of strings.
-
-An sample hand is:
+You are free to model cards and hands any way you like, but your code should be able to take a hand defined as a list of strings as in the following example.
 ```scala
-val player1 = List("AC", "4D", "QC", "3H", "10S")
+object PokerApp {
+  def classifyHand(hand: List[String]): String = {
+    ???
+  }
+}
+val hand1 = List("AC", "4D", "QC", "3H", "10S")
+PokerApp.classifyHand(hand1)
 ```
 
-Your code should take a hand and identify it based on the standard rules of poker.
+Your code should be able to classify hands based on the standard rules of poker.
 
 The possible hands are:
 * Straight flush
@@ -53,7 +57,7 @@ These are listed and explained at https://en.wikipedia.org/wiki/List_of_poker_ha
 If your code is correct, the following asserts should pass. 
 Copy and paste them into the bottom of your worksheet and use them as the acceptance criteria for your code.
 ```scala
-assert(PokerApp.identifyHand(List("AC", "4D", "QC", "3H") == "Invalid hand: Too few cards")
-assert(PokerApp.identifyHand(List("AC", "4D", "QC", "3H", "10S") == "Invalid hand: Too many cards")
-assert(PokerApp.identifyHand(List("AC", "4D", "QC", "3H", "10S") == "High card: Queen of Clubs")
+assert(PokerApp.classifyHand(List("AC", "4D", "QC", "3H") == "Invalid hand: Too few cards")
+assert(PokerApp.classifyHand(List("AC", "4D", "QC", "3H", "10S") == "Invalid hand: Too many cards")
+assert(PokerApp.classifyHand(List("AC", "4D", "QC", "3H", "10S") == "High card: Queen of Clubs")
 ```
