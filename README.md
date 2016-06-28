@@ -1,6 +1,6 @@
 #PP Lunchtime Scala 
 ##Puzzle Number 2 - Poker-Hands Part 1
-###Due 05/07/2016
+###Meetup date: 05/07/2016
 
 ##Submissions
 * Submit your solution in a single scala worksheet
