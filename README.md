@@ -5,9 +5,13 @@
 ##Submissions
 * Submit your solution in a single scala worksheet
 * Push the worksheet to the repo in a new folder with your name
-* All the asserts listed below should pass
+* Use the asserts listed below to test your code
 * No throwing exceptions
 * No loops
+
+Note:
+* Come to the meetup whether you have done all, part or none of the problem.
+* Break any of the rules you want. The only goal is that you learn something.
 
 ##Description
 Determine the status of a poker hand.
@@ -38,7 +42,7 @@ val hand1 = List("AC", "4D", "QC", "3H", "10S")
 PokerApp.classifyHand(hand1)
 ```
 
-Your code should be able to classify hands based on the standard rules of poker.
+Your code should be able to classify hands based on the standard rules of poker. 
 
 The possible hands are:
 * Straight flush
@@ -56,8 +60,21 @@ These are listed and explained at https://en.wikipedia.org/wiki/List_of_poker_ha
 ##Tests
 If your code is correct, the following asserts should pass. 
 Copy and paste them into the bottom of your worksheet and use them as the acceptance criteria for your code.
+
 ```scala
-assert(PokerApp.classifyHand(List("AC", "4D", "QC", "3H") == "Invalid hand: Too few cards")
-assert(PokerApp.classifyHand(List("AC", "4D", "QC", "3H", "10S") == "Invalid hand: Too many cards")
-assert(PokerApp.classifyHand(List("AC", "4D", "QC", "3H", "10S") == "High card: Queen of Clubs")
+//Basic functionality
+assert(PokerApp.classifyHand(List("AC", "4D", "QC", "3H")) == "Invalid hand: Too few cards")
+assert(PokerApp.classifyHand(List("AC", "4D", "QC", "3H", "10S", "6D")) == "Invalid hand: Too many cards")
+assert(PokerApp.classifyHand(List("3H", "4D", "QC", "3H", "10S")) == "Invalid hand: Three of Hearts appears two times")
+assert(PokerApp.classifyHand(List("AC", "4D", "QC", "3H", "10S")) == "High card: Queen of Clubs")
+//Intermediate functionality
+assert(PokerApp.classifyHand(List("AC", "4D", "QC", "4H", "10S")) == "One Pair: Fours")
+assert(PokerApp.classifyHand(List("AC", "8D", "8C", "8H", "10S")) == "Three of a Kind: Eights")
+assert(PokerApp.classifyHand(List("6C", "6D", "QC", "6H", "6S")) == "Four of a Kind: Sixes")
+assert(PokerApp.classifyHand(List("AC", "4D", "QC", "4H", "QS")) == "Two Pair: Fours and Queens")
+assert(PokerApp.classifyHand(List("5C", "9D", "5H", "9H", "9S")) == "Full House: Nines over Fives")
+//Advanced functionality
+assert(PokerApp.classifyHand(List("AH", "7H", "QH", "4H", "10H")) == "Flush: Hearts")
+assert(PokerApp.classifyHand(List("9C", "10D", "JC", "QH", "KS")) == "Straight: Nine to King")
+assert(PokerApp.classifyHand(List("10D", "JD", "QD", "KD", "AD")) == "Straight Flush: Diamonds")
 ```
