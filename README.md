@@ -55,7 +55,7 @@ The possible hands are:
 * One pair
 * High card
 
-These are listed and explained at https://en.wikipedia.org/wiki/List_of_poker_hands
+These are explained at https://en.wikipedia.org/wiki/List_of_poker_hands
 
 ##Tests
 If your code is correct, the following asserts should pass. 
@@ -71,10 +71,10 @@ assert(PokerApp.classifyHand(List("AC", "4D", "QC", "3H", "10S")) == "High card:
 assert(PokerApp.classifyHand(List("AC", "4D", "QC", "4H", "10S")) == "One Pair: Fours")
 assert(PokerApp.classifyHand(List("AC", "8D", "8C", "8H", "10S")) == "Three of a Kind: Eights")
 assert(PokerApp.classifyHand(List("6C", "6D", "QC", "6H", "6S")) == "Four of a Kind: Sixes")
-assert(PokerApp.classifyHand(List("AC", "4D", "QC", "4H", "QS")) == "Two Pair: Fours and Queens")
-assert(PokerApp.classifyHand(List("5C", "9D", "5H", "9H", "9S")) == "Full House: Nines over Fives")
+assert(PokerApp.classifyHand(List("AC", "4D", "QC", "4H", "QS")) == "Two Pair: Queens and Fours") //Larger card listed first
+assert(PokerApp.classifyHand(List("5C", "9D", "5H", "9H", "9S")) == "Full House: Nines over Fives") //Larger card listed first
 //Advanced functionality
 assert(PokerApp.classifyHand(List("AH", "7H", "QH", "4H", "10H")) == "Flush: Hearts")
 assert(PokerApp.classifyHand(List("9C", "10D", "JC", "QH", "KS")) == "Straight: Nine to King")
-assert(PokerApp.classifyHand(List("10D", "JD", "QD", "KD", "AD")) == "Straight Flush: Diamonds")
+assert(PokerApp.classifyHand(List("6D", "5D", "3D", "4D", "2D")) == "Straight Flush: Two to Six")
 ```
