@@ -15,7 +15,7 @@ object PokerApp extends App {
       try {
         Success(withName(s))
       } catch {
-        case e:Exception => Failure(e)
+        case e:Exception => Failure(new IllegalArgumentException(s"Not a valid value: $s"))
       }
     }
   }
@@ -39,8 +39,8 @@ object PokerApp extends App {
 
   def toCard(s: String): Try[Card] = {
     for {
-      suit  <- Suits.fromString(s.takeRight(1))
       value <- CardValues.fromString(s.dropRight(1))
+      suit  <- Suits.fromString(s.takeRight(1))
     } yield Card(value, suit)
   }
 
@@ -55,6 +55,12 @@ object PokerApp extends App {
 //  println (List(J, `2`, A).sorted)
 
   println(toCard("10C"))
+  println(toCard("DV"))
   //CardValues.withName()
 
+  case class Hand(l: List[Card])
+
+  def addCard(h: Hand, c: Card) = ???
+
+  println(List(toCard("10D")).contains(toCard("10D")))
 }
