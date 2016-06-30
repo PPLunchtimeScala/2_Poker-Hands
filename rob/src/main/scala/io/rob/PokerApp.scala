@@ -15,7 +15,7 @@ object PokerApp extends App {
       try {
         Success(withName(s))
       } catch {
-        case e:_ => Failure(e)
+        case e:Exception => Failure(e)
       }
     }
   }
@@ -24,12 +24,13 @@ object PokerApp extends App {
     type Suit = Value
     val CLUBS, SPADES, DIAMONDS, HEARTS = Value
 
-    def fromString(s: String) = {
+    def fromString(s: String): Try[Suit] = {
       s.toUpperCase match {
-        case "S" => SPADES
-        case "C" => CLUBS
-        case "H" => HEARTS
-        case "D" => DIAMONDS
+        case "S"     => Success(SPADES)
+        case "C"     => Success(CLUBS)
+        case "H"     => Success(HEARTS)
+        case "D"     => Success(DIAMONDS)
+        case unknown => Failure(new IllegalArgumentException(s"Not a suit: $unknown"))
       }
     }
   }
@@ -38,8 +39,8 @@ object PokerApp extends App {
 
   def toCard(s: String): Try[Card] = {
     for {
-      value <- CardValues.withName(s.dropRight(1))
       suit  <- Suits.fromString(s.takeRight(1))
+      value <- CardValues.fromString(s.dropRight(1))
     } yield Card(value, suit)
   }
 
