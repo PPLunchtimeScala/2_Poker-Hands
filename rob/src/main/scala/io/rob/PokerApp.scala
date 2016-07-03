@@ -1,41 +1,10 @@
 package io.rob
 
-import io.rob.PokerApp.CardValues.CardValue
-import io.rob.PokerApp.Suits.Suit
+import io.rob.algebra.{Card, CardValues, Hand, Suits}
 
-import scala.util.{Failure, Success, Try}
+import scala.util.Try
 
 object PokerApp extends App {
-
-  object CardValues extends Enumeration {
-    type CardValue = Value
-    val `2`, `3`, `4`, `5`, `6`, `7`, `8`, `9`, `10`, J, Q, K, A = Value
-
-    def fromString(s: String): Try[CardValue] = {
-      try {
-        Success(withName(s))
-      } catch {
-        case e:Exception => Failure(new IllegalArgumentException(s"Not a valid value: $s"))
-      }
-    }
-  }
-
-  object Suits extends Enumeration {
-    type Suit = Value
-    val CLUBS, SPADES, DIAMONDS, HEARTS = Value
-
-    def fromString(s: String): Try[Suit] = {
-      s.toUpperCase match {
-        case "S"     => Success(SPADES)
-        case "C"     => Success(CLUBS)
-        case "H"     => Success(HEARTS)
-        case "D"     => Success(DIAMONDS)
-        case unknown => Failure(new IllegalArgumentException(s"Not a suit: $unknown"))
-      }
-    }
-  }
-
-  case class Card(value: CardValue, suit: Suit)
 
   def toCard(s: String): Try[Card] = {
     for {
@@ -57,8 +26,6 @@ object PokerApp extends App {
   println(toCard("DV"))
   //CardValues.withName()
 
-  case class Hand(l: List[Card])
-
   def addCard(h: Hand, c: Card) = ???
 
   println(List(toCard("10D")).contains(toCard("10D")))
@@ -71,6 +38,10 @@ object PokerApp extends App {
   val threeOfAKind = containsSameCardValues(3)
   val fourOfAKind = containsSameCardValues(4)
 
+  def contains(cards: Map[CardValue, List[Card]])(f: List[Card] => Boolean) = {
+    cards.map { case (k, v) => f(v) }.exists(_ == true)
+  }
+
   def highCard(cards: List[Card]): Option[Card] = {
     cards.foldLeft(Option.empty[Card])((z, b) => {
       z match {
@@ -78,10 +49,6 @@ object PokerApp extends App {
         case Some(card) => if (card.value > b.value) Some(card) else Some(b)
       }
     })
-  }
-
-  def contains(cards: Map[CardValue, List[Card]])(f: List[Card] => Boolean) = {
-    cards.map { case (k, v) => f(v) }.exists(_ == true)
   }
 
   val l1: List[Card] = List(Card(`2`, DIAMONDS), Card(`2`, HEARTS), Card(`4`, CLUBS), Card(`4`, SPADES))
@@ -102,5 +69,9 @@ object PokerApp extends App {
     println (s"Highest Card Value: ${highCard(l)}")
 
   }
+
+
+
+
 
 }
