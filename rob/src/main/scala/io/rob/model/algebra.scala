@@ -1,7 +1,7 @@
-package io.rob.algebra
+package io.rob.model
 
-import io.rob.algebra.CardValues.CardValue
-import io.rob.algebra.Suits.Suit
+import io.rob.model.CardValues.CardValue
+import io.rob.model.Suits.Suit
 
 import scala.util.{Failure, Success, Try}
 
@@ -36,9 +36,19 @@ object Suits extends Enumeration {
   }
 }
 
+
 case class Card(value: CardValue, suit: Suit)
 
+case class Hand (cards: List[Card] = List.empty[Card], superPowers: Set[SuperPower] = Set.empty[SuperPower])
 
-case class Hand(cards: List[Card])
+sealed trait SuperPower
+
+case class  TwoPair      (value: CardValue) extends SuperPower
+case class  ThreeOfAKind (value: CardValue) extends SuperPower
+case class  FourOfAKind  (value: CardValue) extends SuperPower
+case object NothingSoFar extends SuperPower
+
+
+
 
 

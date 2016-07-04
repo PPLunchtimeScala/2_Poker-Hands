@@ -1,6 +1,6 @@
 package io.rob
 
-import io.rob.algebra.{Card, CardValues, Hand, Suits}
+import io.rob.model.{Card, CardValues, Hand, Suits}
 
 import scala.util.Try
 
@@ -38,7 +38,7 @@ object PokerApp extends App {
   val threeOfAKind = containsSameCardValues(3)
   val fourOfAKind = containsSameCardValues(4)
 
-  def contains(cards: Map[CardValue, List[Card]])(f: List[Card] => Boolean) = {
+  def contains(cards: Map[CardValue, List[Card]])(f: List[Card] => Boolean): Boolean = {
     cards.map { case (k, v) => f(v) }.exists(_ == true)
   }
 

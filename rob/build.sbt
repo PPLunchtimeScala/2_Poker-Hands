@@ -22,7 +22,7 @@ val scalatest = Seq(
     "org.scalatest" %% "scalatest" % "2.2.4"
 )
 
-val scalazV = "7.1.3"
+val scalazV = "7.1.8"
 
 val scalazStreamV = "0.8"
 
