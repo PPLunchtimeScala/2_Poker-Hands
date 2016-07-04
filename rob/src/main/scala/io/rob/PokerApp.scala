@@ -5,31 +5,8 @@ import io.rob.model.{Card, CardValues, Hand, Suits}
 import scala.util.Try
 
 object PokerApp extends App {
-
-  def toCard(s: String): Try[Card] = {
-    for {
-      value <- CardValues.fromString(s.dropRight(1))
-      suit  <- Suits.fromString(s.takeRight(1))
-    } yield Card(value, suit)
-  }
-
-//  implicit def ordering[CardValue]: Ordering[CardValue] = new Ordering[CardValue] {
-//    override def compare(x: CardValue, y: CardValue): Int = {
-//
-//    }
-//  }
-
   import CardValues._
   import Suits._
-
-  println(toCard("10C"))
-  println(toCard("DV"))
-  //CardValues.withName()
-
-  def addCard(h: Hand, c: Card) = ???
-
-  println(List(toCard("10D")).contains(toCard("10D")))
-
 
   val containsSameCardValues: Int => List[Card] => Boolean =
     targetNumberOfCards => cards => cards.size == targetNumberOfCards

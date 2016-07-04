@@ -2,30 +2,34 @@ package io.rob
 
 import io.rob.model._
 
+import scalaz.\/
 
-/**
-  * Created by rob on 03/07/16.
-  */
+
 object PokerAppS extends App {
 
   import CardValues._
-  import Suits._
   import scalaz.State
 
   type SuperPowers = Set[SuperPower]
   type SuperPowerTest = List[Card] => Boolean
   type StateHand[SuperPower] = State[Hand, SuperPower]
 
-  val l1: List[Card] = List(Card(`2`, DIAMONDS), Card(`2`, HEARTS), Card(`4`, CLUBS), Card(`4`, SPADES))
-  val l2: List[Card] = List(Card(`3`, DIAMONDS), Card(`3`, HEARTS), Card(`3`, CLUBS), Card(`4`, SPADES))
-  val l3: List[Card] = List(Card(A, DIAMONDS), Card(`2`, HEARTS))
+  implicit val ordering = SuperPower.ordering
 
-  val containsSameCardValues: Int => List[Card] => Boolean = {
-    targetNumberOfCards => cards => cards.size == targetNumberOfCards
+  def toCard(s: String): String \/ Card = {
+    for {
+      value <- CardValues.fromString(s.dropRight(1))
+      suit  <- Suits.fromString(s.takeRight(1))
+    } yield Card(value, suit)
   }
 
-  val twoPairTest: List[Card] => Option[SuperPower] = cards => {
-    val groups: Map[CardValue, List[Card]] = cards.groupBy(_.value)
+  // This "twoPairTest" is rubbish code.  It started life as something else and was then abandoned!
+  val twoPairTest: Hand => Option[SuperPower] = hand => {
+    val groups: Map[CardValue, List[Card]] = hand.cards.groupBy(_.value)
+
+    val containsSameCardValues: Int => List[Card] => Boolean = {
+      targetNumberOfCards => cards => cards.size >= targetNumberOfCards
+    }
 
     val twos = groups.find {
       case (cardValue, listOfCards) => containsSameCardValues(2)(listOfCards)
@@ -42,22 +46,6 @@ object PokerAppS extends App {
     twoPairTest
   )
 
-  def contains(cards: Map[CardValue, List[Card]])(f: List[Card] => Boolean) = {
-    cards.map { case (k, v) => f(v) }.exists(_ == true)
-  }
-
-  def addCard(card: Card) = {
-    for {
-      a <- State.init[Hand]
-      _ <- State.modify { h: Hand => {
-          val cards = card :: h.cards
-          Hand(cards, identifySuperPowers(cards))
-        }
-      }
-      c <- State.get
-    } yield Some(card)
-  }
-
   def emptyHand() = for {
     _    <- State.init[Hand]
     _    <- State.modify((h: Hand) => Hand())
@@ -65,27 +53,36 @@ object PokerAppS extends App {
   } yield NothingSoFar
 
 
-  def identifySuperPowers(cards: List[Card]): SuperPowers = {
-    superPowerTests.foldLeft(Set.empty[SuperPower]) {(z, b) =>
-      b(cards) match {
+  def addCard(s: String): StateHand[SuperPower] = {
+    // FIXME: How do I use a Try with a State?
+    val card = toCard(s).toOption.get
+
+    for {
+      _    <- State.init[Hand]
+      _    <- State.modify { h: Hand => Hand(card :: h.cards) }
+      hand <- State.get
+    } yield identifySuperPowers(hand).max
+  }
+
+
+  def identifySuperPowers(hand: Hand): SuperPowers = {
+    superPowerTests.foldLeft(Set[SuperPower](NothingSoFar)) {(z, test) =>
+      test(hand) match {
         case None => z
         case Some(power) => z + power
       }
     }
   }
 
-  //  def checkForBestSuperPower(): StateHand[SuperPower] =  for {
-  //    _ <- State.init[Hand]
-  //    hand <= State.get
-  //  }
-
   val program = for {
-    _   <- emptyHand()
-    _   <- addCard(Card(`3`, DIAMONDS))
-    _   <- addCard(Card(`3`, CLUBS))
-    _   <- addCard(Card(`3`, SPADES))
-    r1  <- State.get
-  } yield r1
+    _    <- emptyHand()
+    _    <- addCard("3D")
+    _    <- addCard("3C")
+    _    <- addCard("3S")
+    _    <- addCard("JS")
+    sp   <- addCard("JD")
+    hand <- State.get
+  } yield s"Best superPower in $hand is $sp"
 
-  println(program.eval(Hand()).superPowers)
+  println(program.eval(Hand()))
 }
