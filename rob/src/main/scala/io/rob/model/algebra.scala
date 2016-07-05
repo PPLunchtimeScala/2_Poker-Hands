@@ -5,9 +5,7 @@ import io.rob.model.Suits.Suit
 
 import scalaz.{-\/, \/, \/-}
 
-/**
-  * Created by rob on 03/07/16.
-  */
+
 object CardValues extends Enumeration {
   type CardValue = Value
   val `2`, `3`, `4`, `5`, `6`, `7`, `8`, `9`, `10`, J, Q, K, A = Value
@@ -20,6 +18,7 @@ object CardValues extends Enumeration {
     }
   }
 }
+
 
 object Suits extends Enumeration {
   type Suit = Value
@@ -37,11 +36,9 @@ object Suits extends Enumeration {
 }
 
 case class Card(value: CardValue, suit: Suit)
-
 case class Hand (cards: List[Card] = List.empty[Card])
 
 sealed trait SuperPower { val order: Int }
-
 case class  TwoPair      (value: CardValue) extends SuperPower { val order = 1 }
 case class  ThreeOfAKind (value: CardValue) extends SuperPower { val order = 2 }
 case class  FourOfAKind  (value: CardValue) extends SuperPower { val order = 3 }

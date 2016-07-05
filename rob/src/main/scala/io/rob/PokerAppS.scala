@@ -44,12 +44,26 @@ object PokerAppS extends App {
 
   val superPowerTests = List(
     twoPairTest
+//    threeOfAKindTest,
+//    fourOfAKindTest
+//    fullHouse
+//    etc
   )
 
+  def identifySuperPowers(hand: Hand): SuperPowers = {
+    superPowerTests.foldLeft(Set[SuperPower](NothingSoFar)) {(z, test) =>
+      test(hand) match {
+        case None => z
+        case Some(power) => z + power
+      }
+    }
+  }
+
+
   def emptyHand() = for {
-    _    <- State.init[Hand]
-    _    <- State.modify((h: Hand) => Hand())
-    hand <- State.get
+    _  <- State.init[Hand]
+    _  <- State.modify((h: Hand) => Hand())
+    _  <- State.get
   } yield NothingSoFar
 
 
@@ -62,16 +76,6 @@ object PokerAppS extends App {
       _    <- State.modify { h: Hand => Hand(card :: h.cards) }
       hand <- State.get
     } yield identifySuperPowers(hand).max
-  }
-
-
-  def identifySuperPowers(hand: Hand): SuperPowers = {
-    superPowerTests.foldLeft(Set[SuperPower](NothingSoFar)) {(z, test) =>
-      test(hand) match {
-        case None => z
-        case Some(power) => z + power
-      }
-    }
   }
 
   val program = for {
